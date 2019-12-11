@@ -58,11 +58,10 @@
         iterator(collection[i], i, collection);
       }
     } else if (typeof collection === 'object') {
-    for (var key in collection) {
-      iterator(collection[key], key, collection)
+      for (var key in collection) {
+        iterator(collection[key], key, collection);
+      }
     }
-  }
-
   };
 
   // Returns the index at which value can be found in the array, or -1 if value
@@ -111,18 +110,24 @@
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
     let memo = {};
-    let result =[];
-    if (isSorted) {
+    let result = [];
+
+    if (iterator === undefined) {
+      iterator = _.identity;
+    }
+    // if (isSorted) {}
     _.each(array, function(val, index, collection) {
       let key = iterator(val);
-      if(!memo[key]) {
-
+      if (memo[key] === undefined) {
+        memo[key] = index;
       }
     });
 
-}
-
-return result;
+    _.each(memo, function(i) {
+      result.push(array[i]);
+    });
+    console.log(memo);
+    return result;
   };
 
 
@@ -131,6 +136,12 @@ return result;
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
+    var result = [];
+    _.each(collection, function(val, index, collection) {
+      result.push(iterator(val, index, collection));
+    });
+
+    return result;
   };
 
   /*
@@ -172,6 +183,18 @@ return result;
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+    let twoArgs = arguments.length === 2;
+    _.each(collection, function(val) {
+      if (!twoArgs) {
+        accumulator = iterator(accumulator, val);
+      } else {
+        accumulator = collection[0];
+        twoArgs = false;
+      }
+    });
+
+    return accumulator;
+
   };
 
   // Determine if the array or object contains a given value (using `===`).
