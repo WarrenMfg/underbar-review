@@ -192,7 +192,13 @@
       it('should override properties found on the destination', function() {
         // Replace this line with an `expect` statement that tests
         // the behavior described by the `it` string
-        throw new Error('This test is missing.');
+        // throw new Error('This test is missing.');
+        var destination = { a: true, b: 0 };
+        var source = { a: false, b: 1 };
+        var extended = _.extend(destination, source);
+
+        expect(extended.a).to.equal(false);
+        expect(extended.b).to.equal(1);
       });
 
       it('should not override properties not found in the source', function() {
@@ -270,7 +276,14 @@
       it('should copy any property whose key is not already set on the target', function() {
         // Replace this line with an `expect` statement that tests
         // the behavior described by the `it` string
-        throw new Error('This test is missing.');
+        // throw new Error('This test is missing.');
+        var destination = { a: 1, b: 2 };
+        var source = { a: 2, b: 4, c: 6, d: 8 };
+
+        _.defaults(destination, source);
+
+        expect(destination.c).to.equal(6);
+        expect(destination.d).to.equal(8);
       });
 
       it('should not copy a property if that key is already set on the target', function() {
@@ -490,6 +503,14 @@
 
         // This test will fail 1/9! times
         expect(shuffled).to.not.eql([4, 5, 6, 7, 8, 9, 10]);
+      });
+
+      // copied from part1.js, line 345
+      it('should maintain same array length', function() {
+        var numbers = [1, 1, 2, 3];
+        var shuffled = _.shuffle(numbers);
+
+        expect(shuffled.length).to.equal(numbers.length);
       });
 
     });

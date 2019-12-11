@@ -278,13 +278,35 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    let arrayOfObjects = Array.from(arguments);
+    arrayOfObjects.shift();
 
+    _.each(arrayOfObjects, function(object) {
+      _.each(object, function(val, key) {
+        obj[key] = val;
+      });
+    });
 
+    return obj;
   };
+
+
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    let arrayOfObjects = Array.from(arguments);
+    arrayOfObjects.shift();
+
+    _.each(arrayOfObjects, function(object) {
+      _.each(object, function(val, key) {
+        if (obj[key] === undefined) {
+          obj[key] = val;
+        }
+      });
+    });
+
+    return obj;
   };
 
 
@@ -328,6 +350,18 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    let memo = {};
+
+    return function() {
+      let argumentStr = JSON.stringify(arguments);
+
+      if (memo[argumentStr] === undefined) {
+        memo[argumentStr] = func.apply(this, arguments);
+        return memo[argumentStr];
+      } else {
+        return memo[argumentStr];
+      }
+    };
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -337,6 +371,12 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    let argsArray = Array.from(arguments);
+    argsArray = argsArray.slice(2);
+
+    setTimeout(function() {
+      func.apply(this, argsArray);
+    }, wait);
   };
 
 
@@ -351,6 +391,15 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    let copy = array.slice();
+    let result = [];
+
+    while (result.length < array.length) {
+      let randomIndex = Math.floor(Math.random() * copy.length);
+      result.push(copy.splice(randomIndex, 1));
+    }
+
+    return result.flat();
   };
 
 
