@@ -220,7 +220,7 @@
     let allPass = true;
 
     _.reduce(collection, function(accumulator, val) {
-      if(!iterator(val)){
+      if (!iterator(val)) {
         allPass = false;
         return false;
       } else {
@@ -237,14 +237,14 @@
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
 
-    if (!iterator){
+    if (!iterator) {
       iterator = _.identity;
     }
 
     let somePass = false;
 
     _.reduce(collection, function(accumulator, val) {
-      if(iterator(val)){
+      if (iterator(val)) {
         somePass = true;
         return true;
       } else {
@@ -278,6 +278,8 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+
+
   };
 
   // Like extend, but doesn't ever overwrite a key that already

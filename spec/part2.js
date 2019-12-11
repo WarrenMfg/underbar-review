@@ -212,7 +212,7 @@
       it('in the case of a conflict, it should use the last property\'s values when extending from multiple source objects', function() {
         var extended = _.extend({ x: 'x' }, { a: 'a', x: 2 }, { a: 1 });
 
-        expect(extended).to.eql({ x: 2, a: 1 });
+        expect(extended).to.eql( { x: 2, a: 1 });
       });
     });
 
